@@ -776,7 +776,10 @@ a.btn { text-decoration: none; display: inline-block; color: var(--ink); }
   .partner-card .lv { font-size: 12px; }
   .menu-right { width: min(54vw, 420px); padding: 50px 8px 6px; gap: 6px; justify-content: flex-start; overflow-y: auto; }
   .menu-right .box { padding: 6px 8px; }
-  .menu-right > .box:last-child { display: none; }
+  .menu-right > .box:last-child { flex-shrink: 0; }
+  #menu-stats { display: none; }
+  .release-panel { margin-top: 0; padding: 5px 6px; font-size: 11px; }
+  .release-panel p { margin: 4px 0; }
   .menu-right > :first-child { margin-top: 0; }
   .ach-pop { top: auto; bottom: 8px; }
   .menu-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 4px; }
