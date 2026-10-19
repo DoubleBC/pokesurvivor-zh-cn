@@ -2,7 +2,7 @@
 
 基于 [JPTER78/pokesurvivor](https://github.com/JPTER78/pokesurvivor) 的非商业汉化分支，保留原作者署名与许可。
 
-在线入口：[DoubleBC 的汉化版](https://doublebc.github.io/pokesurvivor-zh-cn/)（需先启用 Pages）。
+在线个人版已于 2026-10-19 暂停，原网址仅显示暂停通知。线上游戏资源已撤下，源码保留。
 汉化宝可梦、招式和界面，图鉴支持中文搜索。主页显示版本并检查原版更新；可接入自己的 Firebase 云存档。
 
 - 游玩和汉化说明：[汉化版说明](汉化版说明.md)

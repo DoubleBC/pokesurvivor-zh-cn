@@ -1,7 +1,8 @@
-name: Deploy Chinese edition to Pages
+name: Keep personal edition offline
 on:
   push:
     branches: [main]
+    paths: [.github/workflows/pages.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -9,29 +10,7 @@ concurrency:
   group: pages
   cancel-in-progress: false
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24'
-          package-manager-cache: false
-      - run: node tools/build-local.js
-        env:
-          FIREBASE_WEB_CONFIG: ${{ vars.FIREBASE_WEB_CONFIG }}
-      - run: node tools/localization/verify-zh.cjs
-      - run: node --test tools/tests/*.test.cjs
-      - run: python3 tools/package-site.py --output _site --no-zip
-        env:
-          FIREBASE_WEB_CONFIG: ${{ vars.FIREBASE_WEB_CONFIG }}
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-  deploy:
-    needs: build
+  paused-page:
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -40,5 +19,24 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: Replace published game with a paused notice
+        run: |
+          mkdir _site
+          touch _site/.nojekyll
+          cat > _site/index.html <<'HTML'
+          <!doctype html>
+          <html lang="zh-CN">
+          <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1">
+          <meta name="robots" content="noindex,nofollow">
+          <title>个人版已暂停</title>
+          <style>html{color-scheme:dark}body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0a1430;color:#eef3ff;font:18px/1.7 system-ui,sans-serif}main{padding:32px;text-align:center}h1{font-size:28px}p{color:#b9cbf0}</style>
+          <main><h1>个人版已暂停</h1><p>此个人游玩版本已停止公开提供游戏。</p></main>
+          </html>
+          HTML
+          cp _site/index.html _site/404.html
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
       - uses: actions/deploy-pages@v4
         id: deployment
