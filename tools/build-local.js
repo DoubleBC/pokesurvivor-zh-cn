@@ -11,8 +11,9 @@ fs.writeFileSync(path.join(root, 'js/data/site-config.js'), '/* Generated public
 const source = fs.readFileSync(path.join(root, 'dev.html'), 'utf8');
 const scripts = [...source.matchAll(/<script[^>]*src="(js\/[^"?]+\.js)"/g)].map(m => m[1]).filter(f => f !== 'js/data/release.js');
 const hash = crypto.createHash('sha256');
-for (const file of [...scripts, 'css/style.css', 'manifest.webmanifest']) hash.update(fs.readFileSync(path.join(root, file)));
-hash.update(source).update(JSON.stringify(upstream));
+// Git checkouts may use CRLF on Windows and LF on Linux; both are the same release.
+for (const file of [...scripts, 'css/style.css', 'manifest.webmanifest']) hash.update(fs.readFileSync(path.join(root, file), 'utf8').replace(/\r\n/g, '\n'));
+hash.update(source.replace(/\r\n/g, '\n')).update(JSON.stringify(upstream));
 const release = { v: hash.digest('hex').slice(0, 12), version: config.version, upstreamCommit: upstream.commit,
   upstreamRepository: upstream.repository, upstreamBranch: upstream.branch, repository: config.repository };
 fs.writeFileSync(path.join(root, 'js/data/release.js'), '/* Generated release metadata. */\nG.RELEASE = ' + JSON.stringify(release, null, 2) + ';\n');
