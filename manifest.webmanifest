@@ -1,8 +1,8 @@
 {
-  "name": "PokéSurvivor",
+  "name": "PokéSurvivor · 宝可梦幸存者",
   "short_name": "PokéSurvivor",
-  "description": "Fan game gratuito: sobrevive a las hordas con tu compañero Pokémon. Sin anuncios.",
-  "lang": "es",
+  "description": "宝可梦幸存者简体中文个人游玩版。",
+  "lang": "zh-CN",
   "start_url": "./",
   "scope": "./",
   "display": "fullscreen",

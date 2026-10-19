@@ -21,3 +21,7 @@ docs/CONTACTOS_CREADORES.md
 
 # Caché local de wrangler (Cloudflare)
 .wrangler/
+
+# Generated deployment packages
+dist/
+_site/

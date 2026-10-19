@@ -30,7 +30,7 @@
   --green: #5fe08a;
   --shadow: #0a1430;
   --r1: #9fb1c9; --r2: #5fe08a; --r3: #4fb4ff; --r4: #c47bff; --r5: #ffcb3d;
-  --font: 'Pixelify', 'Segoe UI', system-ui, sans-serif;
+  --font: 'Pixelify', 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -295,6 +295,12 @@ label { display: block; font-size: 14px; color: var(--muted); margin: 8px 0 4px;
   position: fixed; top: 14px; right: 16px; z-index: 25;
   display: flex; gap: 10px; align-items: center;
 }
+/* Chinese labels must stay horizontal when the browser panel is narrow. */
+html:lang(zh-CN) .topbar .btn { white-space: nowrap; }
+.release-panel { margin-top: 12px; padding: 10px 12px; border: 1px solid rgba(185,203,240,.35); border-radius: 8px; background: rgba(0,0,0,.18); font-size: 13px; }
+.release-panel p { margin: 6px 0; }
+.release-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.release-actions a { text-decoration: none; }
 .pill {
   display: flex; align-items: center; gap: 8px;
   padding: 6px 14px; border-radius: 30px;

@@ -1,4 +1,19 @@
-# PokéSurvivor · Mundo Misterioso
+# PokéSurvivor · 简体中文个人游玩版
+
+基于 [JPTER78/pokesurvivor](https://github.com/JPTER78/pokesurvivor) 的非商业汉化分支，保留原作者署名与许可。
+
+在线入口：[DoubleBC 的汉化版](https://doublebc.github.io/pokesurvivor-zh-cn/)（需先启用 Pages）。
+汉化宝可梦、招式和界面，图鉴支持中文搜索。主页显示版本并检查原版更新；可接入自己的 Firebase 云存档。
+
+- 游玩和汉化说明：[汉化版说明](汉化版说明.md)
+- Pages、云存档和上游更新配置：[部署说明](部署说明.md)
+- 本机启动：双击 `启动游戏.cmd`。
+
+未配置 Firebase 时，账号与存档仅在当前浏览器中；访客进度不保存。原官网账号和云存档不会自动迁入此分支。
+
+---
+
+# 原作者说明：PokéSurvivor · Mundo Misterioso
 
 Bullet-heaven con Pokémon al estilo de Survivor.io y Megabonk, con sprites de
 *Pokémon Mundo Misterioso*, capa roguelike, **966 Pokémon de las 9 generaciones**,

@@ -6,6 +6,12 @@
  * Cada línea en español y en inglés.
  */
 G.CHANGELOG = [
+  { d: '2026-10-19', title: ['Edición local en chino simplificado', 'Local Simplified Chinese edition', '简体中文本地汉化版'], new: [
+    ['Traducciones de los nombres de Pokémon, movimientos, objetos y menús.', 'Chinese Pokémon, move and item names, plus translated menus and gameplay text.', '精灵、招式、道具和地区采用中文名称，汉化菜单、升级卡牌、技能效果、任务和成就。'],
+    ['Búsqueda por nombre chino o inglés y por número.', 'Search the collection by Chinese or English name, or Pokédex number.', '图鉴支持按中文名、英文名或编号搜索；招式“精神强念”与“超能力”属性分别翻译。'],
+    ['Versión visible y avisos de actualizaciones del original.', 'Visible release version and upstream update notifications.', '主页显示汉化版本与原版提交，进入主页检查原版更新，也可手动检查。'],
+    ['Guardado en un proyecto propio de Firebase, si está configurado.', 'Cloud saves use your own Firebase project when configured.', '支持接入自己的 Firebase 云存档：本地即时保存、有改动时约每分钟同步，也可手动保存。未配置时仅保存到此浏览器；访客不保存。历史更新说明保留原作者英文。']
+  ] },
   { d: '2026-10-18', title: ['Físico y especial, mando, botón Guardar y rankings desde cero', 'Physical and special, controller, Save button and fresh leaderboards'], new: [
     ['Ataques físicos y especiales, como en los juegos: cada Pokémon tiene su Ataque, Ataque Especial, Defensa y Defensa Especial. Los ataques físicos pegan con su Ataque y los especiales con su Ataque Especial: Machamp pega fuerte con Golpe Kárate y flojo con Bola Sombra. Con los de su lado bueno pega lo mismo que antes. Al subir de nivel, cada carta dice si el ataque es físico o especial y cuánto rinde con tu Pokémon, y en la colección se ven todas sus estadísticas.',
      'Physical and special moves, like in the games: every Pokémon has its Attack, Special Attack, Defense and Special Defense. Physical moves use its Attack and special moves its Special Attack: Machamp hits hard with Karate Chop and weakly with Shadow Ball. With moves on its strong side it hits as hard as before. When leveling up, each card says whether the move is physical or special and how well it works with your Pokémon, and the collection shows all its stats.'],

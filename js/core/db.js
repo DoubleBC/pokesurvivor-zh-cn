@@ -422,7 +422,7 @@ G.DB = (() => {
   //   - al cerrar o recargar la pestaña, y antes de recargar por una actualización
   // Nada más: ni al hacer gacha, ni al acabar una partida, ni al cambiar de
   // pestaña. Todo se guarda al momento en este navegador igualmente.
-  const PUSH_EVERY = 30 * 60 * 1000;
+  const PUSH_EVERY = G.SITE_CONFIG && G.SITE_CONFIG.cloud ? G.SITE_CONFIG.cloud.autoSaveMs : 30 * 60 * 1000;
   let syncState = 'local';           // 'ok' | 'syncing' | 'pending' | 'offline' | 'local'
   const listeners = new Set();
 
@@ -445,7 +445,8 @@ G.DB = (() => {
    * cierra de verdad es la clave de la API restringida a estos dominios en
    * Google Cloud; esto frena las copias que ni lo miran (14-10-2026).
    */
-  const HOSTS = ['pokesurvivor.com', 'www.pokesurvivor.com', 'jpter78.github.io', 'localhost', '127.0.0.1'];
+  const HOSTS = G.SITE_CONFIG && G.SITE_CONFIG.cloud ? G.SITE_CONFIG.cloud.allowedHosts
+    : ['pokesurvivor.com', 'www.pokesurvivor.com', 'jpter78.github.io', 'localhost', '127.0.0.1'];
 
   async function initCloud() {
     const cfg = G.FIREBASE_CONFIG;
@@ -471,7 +472,7 @@ G.DB = (() => {
       if (rtdb) rtdb.useEmulator('127.0.0.1', 9000);
     }
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    auth.languageCode = 'es';
+    auth.languageCode = G.I18n ? G.I18n.lang : 'es';
     // Al volver al juego tras un rato fuera, se trae lo del otro aparato (pullSoon).
     // (Al salir de la pestaña ya no se sube nada: ver PUSH_EVERY. Sin conexión,
     // los reintentos de scheduleRetry lo suben al volver.)
@@ -567,7 +568,7 @@ G.DB = (() => {
    * firestore.rules), cada guardado tiene que conservarlo: se copia de la nube.
    * Nunca se sube dos veces en menos de 65 s; mientras, todo está en el navegador.
    */
-  const K_OK = 'ps.cloudok.', MIN_GAP = 65000;
+  const K_OK = 'ps.cloudok.', MIN_GAP = G.SITE_CONFIG && G.SITE_CONFIG.cloud ? G.SITE_CONFIG.cloud.minGapMs : 65000;
   const sinceOk = () => Date.now() - (+read(K_OK + uid) || 0);
 
   /** Sube la partida fusionándola con lo que haya en la nube (transacción). */

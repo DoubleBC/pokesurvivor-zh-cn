@@ -1,0 +1,16 @@
+/* Generated public web configuration. */
+G.SITE_CONFIG = {
+  "version": "1.1.0-zh",
+  "repository": "DoubleBC/pokesurvivor-zh-cn",
+  "firebase": null,
+  "googleLogin": false,
+  "cloud": {
+    "allowedHosts": [
+      "doublebc.github.io",
+      "localhost",
+      "127.0.0.1"
+    ],
+    "autoSaveMs": 60000,
+    "minGapMs": 5000
+  }
+};

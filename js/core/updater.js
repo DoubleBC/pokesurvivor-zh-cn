@@ -25,7 +25,9 @@
 G.Updater = (() => {
   const EVERY = 5 * 60 * 1000, COUNTDOWN = 5, FORCED = 10;
   const tag = document.querySelector('script[src*="app.min.js?v="]');
-  const mine = tag ? (tag.getAttribute('src').match(/v=([0-9a-f]+)/) || [])[1] : null;
+  const meta = document.querySelector('meta[name="ps-release"]');
+  const mine = tag ? (tag.getAttribute('src').match(/v=([0-9a-f]+)/) || [])[1]
+    : meta && /^[0-9a-f]{12}$/.test(meta.content) ? meta.content : null;
   let pending = false, forced = false, lastCheck = 0, timer = 0, counting = false;
 
   async function check() {

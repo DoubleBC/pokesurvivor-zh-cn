@@ -7,7 +7,7 @@ G.MenuUI = (() => {
   // shiny, favoritos, tipo y búsqueda; y el orden. Duran mientras no recargas.
   const DEX0 = () => ({ status: 'all', rar: new Set(), shiny: false, fav: false, type: '', q: '', sort: 'num' });
   let dexF = DEX0();
-  const SORTS = [['num', 'Nº'], ['name', 'Nombre'], ['rar', 'Rareza'], ['new', 'Recién conseguidos'], ['used', 'Más usados']];
+  const SORTS = [['num', 'Nº'], ['name', 'Nombre de Pokémon'], ['rar', 'Rareza'], ['new', 'Recién conseguidos'], ['used', 'Más usados']];
 
   function init() {
     const ICON = { play: 'ball', dex: 'book', upgrades: 'up', gacha: 'ball4', goals: 'medal3', friends: 'friends', rank: 'trophy', settings: 'gear' };
@@ -87,6 +87,7 @@ G.MenuUI = (() => {
       });
     }
     G.InvitePop.refresh();
+    if (G.UpdatesUI) G.UpdatesUI.open();
   }
 
   /** Texto bajo "Amigos" y "Jugar": quién está en línea, solicitudes, sala. */
@@ -184,7 +185,8 @@ G.MenuUI = (() => {
       const own = !!s.owned[p.dex];
       if (q) {
         // Por número, o por nombre (sin tildes); de los que no tienes no se busca el nombre.
-        if (num != null ? p.dex !== num : !(own && p.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').includes(q))) return false;
+        const names = [p.name, G.T(p.name)].map(n => n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+        if (num != null ? p.dex !== num : !(own && names.some(n => n.includes(q)))) return false;
       } else if (dexGen && p.gen !== dexGen) return false;
       if (f.status === 'own' && !own) return false;
       if (f.status === 'miss' && own) return false;
@@ -195,7 +197,7 @@ G.MenuUI = (() => {
       return true;
     });
     const at = p => (s.owned[p.dex] && s.owned[p.dex].at) || 0, used = p => +(s.pused || {})[p.dex] || 0;
-    const by = { num: (a, b) => a.dex - b.dex, name: (a, b) => a.name.localeCompare(b.name, 'es'),
+    const by = { num: (a, b) => a.dex - b.dex, name: (a, b) => G.T(a.name).localeCompare(G.T(b.name), G.I18n.lang),
                  rar: (a, b) => b.rarity - a.rarity || a.dex - b.dex, new: (a, b) => at(b) - at(a) || a.dex - b.dex,
                  used: (a, b) => used(b) - used(a) || a.dex - b.dex }[f.sort];
     // Los que no tienes no tienen nombre a la vista: al ordenar por nombre van al final.

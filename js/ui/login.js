@@ -56,6 +56,7 @@ G.LoginUI = (() => {
    */
   let offered = false;
   function offerRecovery() {
+    if (G.SITE_CONFIG && !G.SITE_CONFIG.googleLogin) return;
     if (offered || G.DB.mode !== 'cloud' || !G.DB.fb || !G.DB.nameAccount || G.DB.hasGoogle) return;
     try { if (localStorage.getItem('ps.recover.no.' + G.DB.fb.uid)) return; } catch (e) { /* nada */ }
     offered = true;
@@ -85,6 +86,8 @@ G.LoginUI = (() => {
   ];
   /** → true si se ha enseñado alguno. */
   function updateNotices() {
+    // Historical upstream service notices do not describe this independent deployment.
+    if (G.SITE_CONFIG) return false;
     const queue = NOTES.filter(n => { try { return n.when() && !localStorage.getItem(n.key); } catch (e) { return false; } });
     if (!queue.length) return false;
     const en = G.I18n.lang === 'en' ? 1 : 0;
@@ -127,7 +130,7 @@ G.LoginUI = (() => {
     G.UI.chrome(false);
     G.UI.show('scr-login');
     if (!G.DB.storageOk) $('login-err').textContent = 'Este navegador no deja guardar datos: juega como invitado.';
-    $('btn-google').classList.toggle('hidden', G.DB.mode !== 'cloud');
+    $('btn-google').classList.toggle('hidden', G.DB.mode !== 'cloud' || G.SITE_CONFIG && !G.SITE_CONFIG.googleLogin);
     $('login-mode').textContent = modeNote();
     setTimeout(() => $('f-user').focus(), 50);
   }

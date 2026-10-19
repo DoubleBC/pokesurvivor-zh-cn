@@ -249,8 +249,9 @@ G.RunUI = (() => {
   function pauseSummary() {
     const pl = G.Game.player;
     if (!pl) return '';
-    const t = G.Game.st.time, n = v => Math.round(v).toLocaleString('es');
-    const k2 = v => '×' + v.toFixed(2).replace('.', ',');
+    const t = G.Game.st.time, locale = G.I18n.lang === 'zh-CN' ? 'zh-CN' : 'es';
+    const n = v => Math.round(v).toLocaleString(locale);
+    const k2 = v => '×' + (G.I18n.lang === 'zh-CN' ? v.toFixed(2) : v.toFixed(2).replace('.', ','));
     const pct = v => Math.round(v * 100) + ' %';
     const moves = pl.moves.map(m => {
       const secs = Math.max(5, t - (m.since || 0)), col = G.U.TYPE_COLOR[m.type];
@@ -270,7 +271,7 @@ G.RunUI = (() => {
       ['Crítico', pct(pl.critChance || 0)],
       ['Reducción de daño', pct(pl.reduction)],
       ['Recarga', pl.cdMul < 0.995 ? '−' + pct(1 - pl.cdMul) : '0 %'],
-      ['Regeneración', pl.regen.toFixed(1).replace('.', ',') + ' /s']
+      ['Regeneración', (G.I18n.lang === 'zh-CN' ? pl.regen.toFixed(1) : pl.regen.toFixed(1).replace('.', ',')) + ' /s']
     ].map(([a, b]) => `<div><span>${a}</span><b>${b}</b></div>`).join('');
     const it = pl.item && G.Items.BY[pl.item];
     const cards = Object.entries(pl.statsTaken || {}).map(([id, c]) => {

@@ -3,6 +3,8 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<meta name="ps-default-lang" content="zh-CN">
+<meta name="ps-release" content="__RELEASE_HASH__">
 <!-- Seguridad (18-10-2026): sólo se ejecutan los scripts del juego, de Firebase
      y de Google (inicio de sesión). Nada metido en la página (onerror=, etiquetas script
      en un texto...) llega a ejecutarse aunque se colara. Ver js/boot.js. -->
@@ -195,6 +197,17 @@
     </div>
     <div class="box" style="padding:14px 18px">
       <div id="menu-stats" style="font-size:14px;color:var(--muted)"></div>
+      <div id="release-panel" class="release-panel" translate="no">
+        <div id="release-version"></div>
+        <p id="upstream-status" role="status" aria-live="polite"></p>
+        <div class="release-actions">
+          <button id="upstream-check" class="btn small" type="button">检查原版更新</button>
+          <a id="upstream-diff" class="btn small ghost hidden" target="_blank" rel="noopener">查看更新</a>
+          <a id="upstream-sync" class="btn small ghost hidden" target="_blank" rel="noopener">同步到汉化版</a>
+        </div>
+        <p id="cloud-status" class="note"></p>
+        <button id="cloud-save-menu" class="btn small gold hidden" type="button">同步云存档</button>
+      </div>
     </div>
   </div>
 </section>
@@ -572,14 +585,18 @@
 <!-- datos generados -->
 <!-- scripts:begin -->
 <script defer src="js/core/util.js"></script>
+<script defer src="js/data/site-config.js"></script>
+<script defer src="js/data/release.js"></script>
 <script defer src="js/core/i18n.js"></script>
 <script defer src="js/data/lang-en.js"></script>
+<script defer src="js/data/lang-zh-CN.js"></script>
 <script defer src="js/core/settings.js"></script>
 <script defer src="js/data/music.js"></script>
 <script defer src="js/data/pokedex.js"></script>
 <script defer src="js/data/sprites-meta.js"></script>
 <!-- núcleo -->
 <script defer src="js/core/firebase-config.js"></script>
+<script defer src="js/core/local-config.js"></script>
 <script defer src="js/core/db.js"></script>
 <script defer src="js/core/audio.js"></script>
 <script defer src="js/core/input.js"></script>
@@ -589,6 +606,7 @@
 <script defer src="js/core/camera.js"></script>
 <!-- datos de juego -->
 <script defer src="js/data/moves.js"></script>
+<script defer src="js/data/move-names-zh-CN.js"></script>
 <script defer src="js/data/types.js"></script>
 <script defer src="js/data/starters.js"></script>
 <script defer src="js/data/enemies.js"></script>
@@ -646,6 +664,8 @@
 <script defer src="js/ui/support-ui.js"></script>
 <script defer src="js/ui/news-ui.js"></script>
 <script defer src="js/core/updater.js"></script>
+<script defer src="js/core/upstream-updates.js"></script>
+<script defer src="js/ui/updates-ui.js"></script>
 <!-- juego -->
 <script defer src="js/game.js"></script>
 <script defer src="js/main.js"></script>

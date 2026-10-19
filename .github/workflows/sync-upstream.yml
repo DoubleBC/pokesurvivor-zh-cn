@@ -1,0 +1,54 @@
+name: Prepare upstream update
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: upstream-sync
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Prepare merge in an isolated branch
+        id: sync
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          node tools/sync-upstream.cjs
+      - if: steps.sync.outputs.branch != ''
+        name: Build and verify before publishing a branch
+        run: |
+          node tools/build-local.js
+          node tools/localization/verify-zh.cjs
+          node --test tools/tests/*.test.cjs
+      - if: steps.sync.outputs.branch != ''
+        name: Publish a pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SYNC_BRANCH: ${{ steps.sync.outputs.branch }}
+        run: |
+          git add -A
+          git commit -m 'Merge upstream with Chinese edition checks'
+          gh auth setup-git
+          git push origin "HEAD:refs/heads/$SYNC_BRANCH"
+          if [ "$(gh pr list --head "$SYNC_BRANCH" --base main --json number --jq length)" = 0 ]; then
+            cat > /tmp/upstream-pr.md <<'BODY'
+          Updates the recorded upstream revision and merges the original game's changes. Localization coverage and save/update checks passed before this branch was published.
+
+          Review the changes and try the game before merging. Missing translations, source conflicts, and rewritten upstream history stop this workflow without publishing to Pages. A normal merge to main triggers Pages deployment.
+          BODY
+            gh pr create --base main --head "$SYNC_BRANCH" --title 'Update Chinese edition from upstream' --body-file /tmp/upstream-pr.md
+          fi
